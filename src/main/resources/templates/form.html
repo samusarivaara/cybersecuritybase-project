@@ -1,17 +1,40 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Sign up form</title>
+        <title>Welcome - Choose your action</title>
     </head>
     <body>
 
-        <h1>Sign up to the event using this form</h1>
+        <h1>1. Sign up to the event using this form</h1>
 
         <form action="#" th:action="@{/form}" method="POST">
             <p><label for="name">Name</label>: <input type="text" name="name" id="name"/></p>
             <p><label for="address">Address</label>: <input type="text" name="address" id="address"/></p>
             <p><input type="submit" value="Submit" /></p>
         </form>
+
+        <h1> <a id="link1" href="#" onclick="checkMyDetails();">2. Check my sign ups</a> </h1>
+
+        <h1> 3. Check my sign ups by name or part of the name</h1>
+        <form action="#" th:action="@{/query}" method="POST">
+            <p><label for="nameHint">Name</label>: <input type="text" name="nameHint" id="name"/></p>
+            <p><input type="submit" value="Submit" /></p>
+        </form>
+
+        <h1> <a href="custom_logout">Log out</a> </h1>
+
+        <script th:inline="javascript">
+        /*<![CDATA[*/
+
+            var url = [[@{/done}]];
+            url = url + "/" + [[${username}]];
+
+            function checkMyDetails() {
+
+                window.open(url,"_self");
+            }
+        /*]]>*/
+        </script>
 
         <p></p>
     </body>

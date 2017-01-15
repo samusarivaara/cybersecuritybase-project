@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Thank you!</title>
+        <title>Query result</title>
     </head>
     <body>
 
-        <h1>Here are you persons that you have entered</h1>
+        <h1>Query result</h1>
 
         <p th:each="item : ${list}">
-            <span th:text="${item}">Signups</span>
+            <span th:text="${item}">Sign ups</span>
         </p>
         <h1> <a th:href="@{/form}">Goo back</a> </h1>
     </body>
