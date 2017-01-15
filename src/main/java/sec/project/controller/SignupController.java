@@ -25,9 +25,19 @@ public class SignupController {
         return "redirect:/form";
     }
 
-    @RequestMapping("/custom_logout")
+    @RequestMapping(value = "/custom_logout", method = RequestMethod.GET)
     public String logoutMapping() {
+
         return "custom_logout";
+    }
+
+
+    @RequestMapping(value = "/shortcut", method = RequestMethod.GET)
+    public String shortcutMapping(@RequestParam String url) {
+
+        // Vulnerability #5 2013-A10-Unvalidated Redirects and Forwards
+        // Request parameter url is not validated.
+        return "redirect:" + url;
     }
 
     @RequestMapping(value = "/form", method = RequestMethod.GET)
@@ -41,15 +51,16 @@ public class SignupController {
     @RequestMapping(value = "/done/{userid}", method = RequestMethod.GET)
     public String done(Model model, @PathVariable String userid) {
 
+        // Vulnerability #4 2013-A4-Insecure Direct Object References
+        // Authenticated user can access directly to other user's
+        // resource by guessing his username; path variable  /done/{userid}
         List<String> list = new ArrayList<String>();
-
-//TODO
 
         List<Signup> all = signupRepository.findAll();
 
         for (Signup item: all) {
             if (item.getEnteredByUser().equals(userid)) {
-                list.add(item.getName() + " Address: " +item.getAddress());
+                list.add("Name: " + item.getName() + " Address: " +item.getAddress());
             }
         }
         model.addAttribute("list" , list);

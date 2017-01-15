@@ -29,7 +29,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             // Vulnerability #2 2013-A2-Broken Authentication and Session Management.
             // A custom logout page is "defined" but it does not invalidate the
             // session ID.
-            
+
             // Q: How to fix this?
             // A1: Use default logout page by 
             // removing next line and fix logout url in templates (form.html) 
@@ -38,7 +38,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/custom_logout").permitAll()
             .anyRequest().authenticated()
             .and()
-        .formLogin()            
+        .formLogin()
             .permitAll()
             .and()
         .logout()

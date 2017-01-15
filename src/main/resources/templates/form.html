@@ -5,23 +5,32 @@
     </head>
     <body>
 
-        <h1>1. Sign up to the event using this form</h1>
+        <h1>Welcome - Choose your action</h1>
+        
+        <h2>1. Sign up to the event using this form</h2>
 
         <form action="#" th:action="@{/form}" method="POST">
             <p><label for="name">Name</label>: <input type="text" name="name" id="name"/></p>
             <p><label for="address">Address</label>: <input type="text" name="address" id="address"/></p>
             <p><input type="submit" value="Submit" /></p>
         </form>
+        
+        <h2>2. Check my details</h2>
+        <p>
+            <a id="link1" href="#" onclick="checkMyDetails();">Click here</a>
+        </p>
 
-        <h1> <a id="link1" href="#" onclick="checkMyDetails();">2. Check my sign ups</a> </h1>
-
-        <h1> 3. Check my sign ups by name or part of the name</h1>
+        <h2> 3. Check my sign ups by name or part of the name</h2> 
         <form action="#" th:action="@{/query}" method="POST">
-            <p><label for="nameHint">Name</label>: <input type="text" name="nameHint" id="name"/></p>
+            <p><label for="nameHinta">Name</label>: <input type="text" name="nameHint" id="name"/></p>
             <p><input type="submit" value="Submit" /></p>
         </form>
 
-        <h1> <a href="custom_logout">Log out</a> </h1>
+        <h2>Logout options</h2>
+        <p>
+            <a href="custom_logout?url=custom_logout.html">Log out</a>
+            <a href="shortcut?url=logout">Shortcut to log out</a>
+        </p>
 
         <script th:inline="javascript">
         /*<![CDATA[*/
@@ -35,7 +44,6 @@
             }
         /*]]>*/
         </script>
-
-        <p></p>
+        
     </body>
 </html>

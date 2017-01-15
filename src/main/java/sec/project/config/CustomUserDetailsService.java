@@ -40,6 +40,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (!this.accountDetails.containsKey(username)) {
             throw new UsernameNotFoundException("No such user: " + username);
         }
+        boolean isAdmin = "admin".equals(username);
 
         return new org.springframework.security.core.userdetails.User(
                 username,
@@ -48,6 +49,6 @@ public class CustomUserDetailsService implements UserDetailsService {
                 true,
                 true,
                 true,
-                Arrays.asList(new SimpleGrantedAuthority("USER")));
+                Arrays.asList(new SimpleGrantedAuthority(isAdmin? "ADMIN": "USER")));
     }
 }
