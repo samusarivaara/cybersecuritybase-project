@@ -35,6 +35,7 @@ public class SignupController {
     @RequestMapping(value = "/custom_logout", method = RequestMethod.GET)
     public String logoutMapping() {
 
+// Fix me
 //        try {
 //            httpServletRequest.logout();
 //        } catch (ServletException ex) {
@@ -50,6 +51,11 @@ public class SignupController {
 
         // Vulnerability #5 2013-A10-Unvalidated Redirects and Forwards
         // Request parameter url is not validated.
+
+        // Fix me
+        // if (!"logout".equals(url)) {
+        //    return "redirect:error";
+        //}
         return "redirect:" + url;
     }
 
@@ -62,11 +68,18 @@ public class SignupController {
     }
 
     @RequestMapping(value = "/done/{userid}", method = RequestMethod.GET)
-    public String done(Model model, @PathVariable String userid) {
+    public String done(Authentication authentication, Model model, @PathVariable String userid) {
 
         // Vulnerability #4 2013-A4-Insecure Direct Object References
         // Authenticated user can access directly to other user's
         // resource by guessing his username; path variable  /done/{userid}
+
+        // Fix me
+        User user = (User) authentication.getPrincipal();
+        if (!user.getUsername().equals(userid)) {
+            return "redirect:/done/" + user.getUsername();
+        }
+
         List<String> list = new ArrayList<String>();
 
         List<Signup> all = signupRepository.findAll();

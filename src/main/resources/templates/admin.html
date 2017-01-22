@@ -5,11 +5,10 @@
     </head>
     <body>
 
-        <h1>Here are all signups.</h1>
-
+        <h1>Participants</h1>
+        
         <p th:each="item : ${list}">
-            <span th:text="${item.getName()}">Signups</span>
+            <span th:text="${item}">Sign ups</span>
         </p>
-        <h1> <a th:href="@{/form}">Go to main page</a> </h1>
     </body>
 </html>

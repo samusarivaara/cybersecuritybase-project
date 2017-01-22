@@ -1,5 +1,6 @@
 package sec.project.controller;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,6 @@ public class AdminController {
                 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         boolean authorized = authorities.contains(new SimpleGrantedAuthority("ADMIN"));
-        System.out.println("Was authorized admin: "+authorized);
         
         // Vulnerability #3 2013-A7-Missing Function Level Access Control
         // Any authenticated user can access admin url
@@ -35,7 +35,13 @@ public class AdminController {
         //    return "redirect:/form";
         //}
 
-        model.addAttribute("list" , (List<Signup>)signupRepository.findAll());
-        return "queryresults";        
+        // TODO: fix this
+        List<Signup> list = signupRepository.findAll();
+        List<String> names = new ArrayList<String>();
+        for (Signup item: list) {
+            names.add(item.getName());
+        }
+        model.addAttribute("list" , names);
+        return "queryresults";
     }
 }
