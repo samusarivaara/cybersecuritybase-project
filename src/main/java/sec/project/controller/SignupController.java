@@ -2,6 +2,10 @@ package sec.project.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
@@ -19,6 +23,9 @@ public class SignupController {
 
     @Autowired
     private SignupRepository signupRepository;
+    
+    @Autowired
+    private HttpServletRequest httpServletRequest;
 
     @RequestMapping("*")
     public String defaultMapping() {
@@ -28,6 +35,12 @@ public class SignupController {
     @RequestMapping(value = "/custom_logout", method = RequestMethod.GET)
     public String logoutMapping() {
 
+//        try {
+//            httpServletRequest.logout();
+//        } catch (ServletException ex) {
+//            Logger.getLogger(SignupController.class.getName()).log(Level.SEVERE, null, ex);
+//            return "redirect:/logout";
+//        }
         return "custom_logout";
     }
 
@@ -59,7 +72,7 @@ public class SignupController {
         List<Signup> all = signupRepository.findAll();
 
         for (Signup item: all) {
-            if (item.getEnteredByUser().equals(userid)) {
+            if (item.getOwner().equals(userid)) {
                 list.add("Name: " + item.getName() + " Address: " +item.getAddress());
             }
         }

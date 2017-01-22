@@ -11,13 +11,19 @@ public class SignupRepositoryImpl implements SignupRepositoryCustom{
     private EntityManager em;
 
     @Override
-    public List<String> getSignupsByName(String name) {
+    public List<String> getSignupsByName(String name, String owner) {
         
         // Vulnerability #1 OWASP 2013-A1-Injection.
         // Q: How to fix this?
         // A: Use parameter binding http://www.thoughts-on-java.org/jpa-native-queries/ 
         // or declare findByName query on JPA repository (SignupRepository) interface.
-        Query query = em.createQuery("SELECT name FROM Signup WHERE name = '"+name+"'");        
+        
+        // Fix me
+        // Query query = em.createNativeQuery("SELECT name from Signup WHERE owner = ? AND name = ?");
+        // query.setParameter(1, owner);
+        // query.setParameter(2, name);
+        
+        Query query = em.createQuery("SELECT name FROM Signup WHERE owner='" + owner + "' AND name = '"+name+"'");
         List<String> names = query.getResultList();
         return names;
     }

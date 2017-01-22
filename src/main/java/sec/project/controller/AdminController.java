@@ -28,7 +28,13 @@ public class AdminController {
         
         // Vulnerability #3 2013-A7-Missing Function Level Access Control
         // Any authenticated user can access admin url
-                
+
+        // Fix me:
+        // if (!authorized) {
+            // redirect to main page
+        //    return "redirect:/form";
+        //}
+
         model.addAttribute("list" , (List<Signup>)signupRepository.findAll());
         return "queryresults";        
     }

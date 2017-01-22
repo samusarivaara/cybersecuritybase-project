@@ -2,6 +2,7 @@ package sec.project.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +27,10 @@ public class NameQueryController {
 
         // Vulnerability #1 OWASP 2013-A1-Injection.
         // Authenticated user can inject SQL through nameHint parameter.
-        model.addAttribute("list" , signupRepository.getSignupsByName(nameHint));
+        
+        User user = (User) authentication.getPrincipal();
+        
+        model.addAttribute("list" , signupRepository.getSignupsByName(nameHint, user.getUsername()));
         return "queryresults";
     }
 }
