@@ -8,18 +8,18 @@ An authenticated user can inject SQL through nameHint form parameter.
 
 ### How to find it?
 1. Go to http://localhost:8080/, you will be redirected to the /login-page. Use credentials
-	fellow/fellow to login
+   fellow/fellow to login
 2. On the main page (/form), you will see three actions. Choose action 1 "Sign up to the event
-		using this form" by entering Name and Address and clicking "submit" button. Use prefix
-		(username) on Name and Address fields, so you can later identify the submitter (user) of
-		this data. Example Name: fellow_my_name Address: fellow_my_address
+   using this form" by entering *Name* and *Address* and clicking "submit" button. Use prefix
+   (username) on Name and Address fields, so you can later identify the submitter (user) of
+   this data. Example Name: fellow_my_name Address: fellow_my_address
 3. You will see a summary page (/done/fellow). Click "Goo Back" to return to the main page
 4. Optional - Go back to Step 2 and execute more signups, remember to prefix them correctly
 5. Logout by using link: "Shortcut to log out"
 6. Login as different user. Use credentials: fellow2/fellow2
-7. On main page (/form) Choose action 3. "Check my sign ups by name" by entering SQL injection
-       into the field Name. Underlying database has a column called "name", so you can use this
-       string "' OR 1=1 OR name='a" in a form to see all names in the Sign up database
+7. On main page (/form) Choose action 3. "Check my sign ups by name" by entering following
+   string "' OR 1=1 OR name='a" into Name field and then click the submit button
+8. You will see all signup names from underlying database
 
 ### How to fix it?
 Find source *sec.project.repository.SignupRepositoryImpl.java* and implement parameter
@@ -27,9 +27,9 @@ binding according to http://www.thoughts-on-java.org/jpa-native-queries/
 
 Hint: Replace the query with this block
 
-`Query query = em.createNativeQuery("SELECT name from Signup WHERE owner = ? AND name = ?");`
-`query.setParameter(1, owner);`
-`query.setParameter(2, name);`
+    Query query = em.createNativeQuery("SELECT name from Signup WHERE owner = ? AND name = ?");
+    query.setParameter(1, owner);
+    query.setParameter(2, name);
 
 ## Vulnerability #2 2013-A2-Broken Authentication and Session Management
 
@@ -49,14 +49,14 @@ A custom logout page is "defined" but it does not invalidate the session (ID).
 Invalidate session when custom logout is executed by calling *ServletRequest.logout()*
 Find source *sec.project.controller.SignupController.java* and fix *LogoutMapping()* method.
 
-Hint: Add following block.
+Hint: Add following block
 
-`try {`
-`    httpServletRequest.logout();`
-`} catch (ServletException ex) {`
-`    Logger.getLogger(SignupController.class.getName()).log(Level.SEVERE, null, ex);`
-`    return "redirect:/logout";`
-`}`
+    try {
+        httpServletRequest.logout();
+    } catch (ServletException ex) {
+        Logger.getLogger(SignupController.class.getName()).log(Level.SEVERE, null, ex);
+        return "redirect:/logout";
+    }
 
 ## Vulnerability #3 2013-A7-Missing Function Level Access Control
 
@@ -75,9 +75,10 @@ Any authenticated user can access the admin url.
 Check whether user is admin before showing the admin page.
 
 Hint: Find source *sec.project.AdminController* and fix it by adding following check
-`if (!authorized) {`
-` return "redirect:/form";`
-`}`
+
+    if (!authorized) {
+      return "redirect:/form";
+    }
 
 ## Vulnerability #4 2013-A4-Insecure Direct Object References
 
@@ -101,10 +102,11 @@ his/her username which is a part of the path variable: */done/{userid}*.
 Don't use path variable at all, fetch user info from the *Authentication* object.
 
 Hint: Find source *sec.project.controller.SignupController.java* and add following block
-`User user = (User) authentication.getPrincipal();`
-`if (!user.getUsername().equals(userid)) {`
-`    return "redirect:/done/" + user.getUsername();`
-`}`
+
+    User user = (User) authentication.getPrincipal();
+    if (!user.getUsername().equals(userid)) {
+        return "redirect:/done/" + user.getUsername();
+    }
 
 ## Vulnerability #5 2013-A10-Unvalidated Redirects and Forwards
 
@@ -124,6 +126,8 @@ The request parameter *url* is not validated while redirecting.
 Validate that redirect is one of the allowed redirect addresses.
 
 Hint: Find source *sec.project.controller.SignupController* and add check to *shortCutMapping()* method
-`if (!"logout".equals(url)) {`
-`    return "redirect:error";`
-`}`
+
+    if (!"logout".equals(url)) {
+        return "redirect:error";
+    }
+
