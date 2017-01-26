@@ -36,12 +36,12 @@ public class SignupController {
     public String logoutMapping() {
 
 // Fix me
-//        try {
-//            httpServletRequest.logout();
-//        } catch (ServletException ex) {
-//            Logger.getLogger(SignupController.class.getName()).log(Level.SEVERE, null, ex);
-//            return "redirect:/logout";
-//        }
+        try {
+            httpServletRequest.logout();
+        } catch (ServletException ex) {
+            Logger.getLogger(SignupController.class.getName()).log(Level.SEVERE, null, ex);
+            return "redirect:/logout";
+        }
         return "custom_logout";
     }
 
@@ -52,10 +52,9 @@ public class SignupController {
         // Vulnerability #5 2013-A10-Unvalidated Redirects and Forwards
         // Request parameter url is not validated.
 
-        // Fix me
-        // if (!"logout".equals(url)) {
-        //    return "redirect:error";
-        //}
+        if (!"logout".equals(url)) {
+            return "redirect:error";
+        }
         return "redirect:" + url;
     }
 
@@ -74,11 +73,10 @@ public class SignupController {
         // Authenticated user can access directly to other user's
         // resource by guessing his username; path variable  /done/{userid}
 
-        // Fix me
-        //User user = (User) authentication.getPrincipal();
-        //if (!user.getUsername().equals(userid)) {
-        //    return "redirect:/done/" + user.getUsername();
-        //}
+        User user = (User) authentication.getPrincipal();
+        if (!user.getUsername().equals(userid)) {
+            return "redirect:/done/" + user.getUsername();
+        }
 
         List<String> list = new ArrayList<String>();
 

@@ -30,10 +30,9 @@ public class AdminController {
         // Any authenticated user can access admin url
 
         // Fix me:
-        // if (!authorized) {
-            // redirect to main page
-        //    return "redirect:/form";
-        //}
+        if (!authorized) {
+          return "redirect:/form";
+        }
 
         // TODO: fix this
         List<Signup> list = signupRepository.findAll();

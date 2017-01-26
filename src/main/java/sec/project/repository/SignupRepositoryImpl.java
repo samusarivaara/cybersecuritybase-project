@@ -18,12 +18,9 @@ public class SignupRepositoryImpl implements SignupRepositoryCustom{
         // A: Use parameter binding http://www.thoughts-on-java.org/jpa-native-queries/ 
         // or declare findByName query on JPA repository (SignupRepository) interface.
         
-        // Fix me
-        // Query query = em.createNativeQuery("SELECT name from Signup WHERE owner = ? AND name = ?");
-        // query.setParameter(1, owner);
-        // query.setParameter(2, name);
-        
-        Query query = em.createQuery("SELECT name FROM Signup WHERE owner='" + owner + "' AND name = '"+name+"'");
+        Query query = em.createNativeQuery("SELECT name from Signup WHERE owner = ? AND name = ?");
+        query.setParameter(1, owner);
+        query.setParameter(2, name);
         List<String> names = query.getResultList();
         return names;
     }
