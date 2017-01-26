@@ -75,10 +75,10 @@ public class SignupController {
         // resource by guessing his username; path variable  /done/{userid}
 
         // Fix me
-        User user = (User) authentication.getPrincipal();
-        if (!user.getUsername().equals(userid)) {
-            return "redirect:/done/" + user.getUsername();
-        }
+        //User user = (User) authentication.getPrincipal();
+        //if (!user.getUsername().equals(userid)) {
+        //    return "redirect:/done/" + user.getUsername();
+        //}
 
         List<String> list = new ArrayList<String>();
 
