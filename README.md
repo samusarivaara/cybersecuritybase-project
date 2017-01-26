@@ -63,12 +63,15 @@ Hint: Add following block
 Any authenticated user can access the admin url.
 
 ### How to find it?
-1. Go to http://localhost:8080/admin -> you will be redirected to login page
-2. Use admin credentials: admin/admin to login
-3. You will see admin view with sensitive data
-4. Logout and re-login with user level credentials: fellow/fellow
-5. Go to http://localhost:8080/admin
-6. You will see the content which is only allowed for admin user
+1. Login with fellow/fellow at http://localhost:8080
+2. On main page (/form) do sign up (ie. Name: foo Address: bar) by using action 1
+3. Logout
+4. Go to http://localhost:8080/admin -> you will be redirected to login page
+5. Use admin credentials: admin/admin to login
+6. You will see admin view with sensitive data
+7. Logout and re-login with user level credentials: fellow2/fellow2
+8. Go to http://localhost:8080/admin
+9. You will see the content which is only allowed for admin user
 
 ### How to fix it?
 
@@ -101,7 +104,8 @@ his/her username which is a part of the path variable: */done/{userid}*.
 
 Don't use path variable at all, fetch user info from the *Authentication* object.
 
-Hint: Find source *sec.project.controller.SignupController.java* and add following block
+Hint: Find source *sec.project.controller.SignupController.java* and
+      add following check in the beginning of the done()-method.
 
     User user = (User) authentication.getPrincipal();
     if (!user.getUsername().equals(userid)) {
